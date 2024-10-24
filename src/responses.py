@@ -1,5 +1,3 @@
-from commands import *
-
 def get_response(user_message: str) -> str:
     lowered: str = user_message.lower()
 

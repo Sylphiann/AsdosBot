@@ -3,11 +3,13 @@ import os
 from typing import Final
 from dotenv import load_dotenv
 from discord import Intents, Client, Message
-from responses import get_response
+from src.responses import get_response
+from src.util import command_type
 
 # Load token
 load_dotenv()
 TOKEN: Final[str] = os.getenv('DISCORD_TOKEN')
+RESP_CHANNEL_ID: Final[str] = os.getenv('CHANNEL_ID')
 
 # Bot setup
 intents: Intents = Intents.default()
@@ -23,15 +25,23 @@ async def send_message(message: Message, user_message: str) -> None:
         print('Message was empty because intents was not configured properly')
         return
 
-    # Command message
-    if is_command := user_message[0] == '!':
-        user_message = user_message[1:]
+    is_anon, is_command, is_forced, user_message = command_type(user_message)
 
     # Get response
     try:
         response: str = get_response(user_message)
-        if is_command:
+        if is_forced:
+            await message.delete()
             await message.channel.send(response)
+            
+        elif is_command:
+            resp_channel = client.get_channel(int(RESP_CHANNEL_ID))
+            await resp_channel.send(response)
+
+        elif is_anon:
+            await message.delete()
+            await message.channel.send(user_message)
+            
     except Exception as e:
         print(f"Error caught!\n{e}")
 
