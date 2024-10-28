@@ -1,11 +1,12 @@
-from commands import glang
+from src.commands import glang
+from src.util import split_message
 
 def get_response(user_message: str) -> str:
-    lowered: str = user_message.lower()
+    command, argument = split_message(user_message)
 
-    if lowered == "test":
+    if command == "test":
         return "I am ready!"
-    elif lowered == "g":
-        return glang.turnToG(user_message)
+    elif command == "g":
+        return glang.turnToG(argument)
     else:
         return "The command isn't registered yet"
