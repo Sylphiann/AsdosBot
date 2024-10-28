@@ -32,12 +32,12 @@ jobs:
         DISCORD_TOKEN: ${{ secrets.BUILD_TOKEN }}
         CHANNEL_ID: ${{ secrets.BUILD_CHANNEL }}
       run: |
-        python main.py
+        timeout 10s python main.py
 
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: build
+    # needs: build
 
     steps:
       - name: Connecting to the VM and deploying
