@@ -1,5 +1,5 @@
-import is_number
-import is_operator
+from src.utils.is_number import is_number
+from src.utils.is_operator import is_operator
 
 def calculate(string: str):
     string = string.replace(" ", "")
@@ -15,16 +15,21 @@ def calculate(string: str):
             if (is_operand):
                 last_index += 1
             else:
-                operand = int(string[first_index:last_index])
-                operands.append(operand)
-                first_index = last_index + 1
+                operator = string[first_index:last_index]
+                operators.append(operator)
+                first_index = last_index
+                last_index += 1
+                is_operand = True
+
         elif is_operator(chr):
             if (not is_operand):
                 last_index += 1
             else:
-                operator = string[first_index:last_index]
-                operators.append(operator)
-                first_index = last_index + 1
+                operand = int(string[first_index:last_index])
+                operands.append(operand)
+                first_index = last_index
+                last_index += 1
+                is_operand = False
 
     if (is_operand):
         operand = int(string[first_index:last_index])
@@ -35,6 +40,9 @@ def calculate(string: str):
 
     operands.reverse()
     operators.reverse()
+
+    print(operands)
+    print(operators)
 
     while len(operators) != 0:
         operator = operators[len(operators) - 1]
