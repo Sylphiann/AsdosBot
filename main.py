@@ -9,8 +9,8 @@ from src.util import command_type
 
 # Load token
 load_dotenv()
-TOKEN: Final[str] = os.getenv('TEST_TOKEN')
-RESP_CHANNEL_ID: Final[str] = os.getenv('TEST_CHANNEL_ID')
+TOKEN: Final[str] = os.getenv('DISCORD_TOKEN')
+RESP_CHANNEL_ID: Final[str] = os.getenv('CHANNEL_ID')
 
 # Bot setup
 intents: Intents = Intents.default()
