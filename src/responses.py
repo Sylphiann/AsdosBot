@@ -1,4 +1,4 @@
-from src.utils.calculate import calculate
+from src.utils.calculate.calculate import calculate
 
 def get_response(user_message: str) -> str:
     lowered: str = user_message.lower().split()

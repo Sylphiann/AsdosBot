@@ -1,3 +1,3 @@
 def is_operator(chr: str):
-    OPERATORS = {"+", "-", "*", "/", "^"}
+    OPERATORS = {"+", "-", "*", "/", "^", "%"}
     return chr in OPERATORS
