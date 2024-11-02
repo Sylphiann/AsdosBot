@@ -1,0 +1,35 @@
+name: Deploy to VM Instance
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Connecting to the VM and deploying
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            # Attach to the screen session and stop main.py
+            screen -S asdos -X quit
+            
+            # Navigate to the codebase directory (update this path)
+            cd ~/asdos/AsdosBot
+            
+            # Update the codebase
+            git pull
+            
+            # Restart the python program in screen
+            screen -dmS asdos python3 main.py

@@ -1,15 +1,15 @@
 from src.utils.calculate.calculate import calculate
+from src.commands import glang
+from src.util import split_message
 
 def get_response(user_message: str) -> str:
-    lowered: str = user_message.lower().split()
-    command: str = lowered[0]
-    param1: str = lowered[1] if len(lowered) >= 2 else None
-    param2: str = lowered[2] if len(lowered) >= 3 else None
+    command, argument = split_message(user_message)
     
-
     if command == "test":
         return "I am ready!"
+    elif command == "g":
+        return glang.turnToG(argument)
     elif command == "calculate":
-        return calculate(param1)
+        return calculate.calc(argument)
     else:
         return "The command isn't registered yet"
